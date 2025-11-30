@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penilaian Sumatif Akhir Semester - SMK Insan Unggul</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            background-color: #1a4c8f;
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        header h2 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: #ffcc00;
+        }
+        
+        header p {
+            font-size: 18px;
+        }
+        
+        .tables-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        
+        .class-column {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .class-column:hover {
+            transform: translateY(-5px);
+        }
+        
+        .class-title {
+            text-align: center;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #1a4c8f;
+            color: white;
+            border-radius: 8px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        th {
+            background-color: #f0f0f0;
+            font-weight: 600;
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        a {
+            color: #1a4c8f;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        a:hover {
+            color: #ff6600;
+            text-decoration: underline;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .tables-container {
+                flex-direction: column;
+            }
+            
+            .class-column {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>PENILAIAN SUMATIF AKHIR SEMESTER GANJIL</h1>
+            <h2>SMK INSAN UNGGUL</h2>
+            <p>TAHUN AJARAN 2025/2026</p>
+        </header>
+        
+        <div class="tables-container">
+            <div class="class-column">
+                <div class="class-title">KELAS X</div>
+                <table>
+                    <tr>
+                        <th>Mata Pelajaran</th>
+                    </tr>
+                    <tr>
+                        <td><a href="#">Matematika</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="#">Bahasa Indonesia</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="#">Bahasa Inggris</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="#">IPA</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="#">IPS</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="#">Pendidikan Agama</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="#">Pendidikan Kewarganegaraan</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="#">Pendidikan Jasmani</a></td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="class-column">
+                <div class="class-title">KELAS XI</div>
+                <table>
+                    <tr>
+                        <th>Mata Pelajaran</th>
+                    </tr>
+                    <tr>
+                        <td><a href="#">Matematika</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="#">Bahasa Indonesia</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="#">Bahasa Inggris</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="#">Fisika</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="#">Kimia</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="#">Biologi</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="#">Sejarah</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="#">Pendidikan Agama</a></td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="class-column">
+                <div class="class-title">KELAS XII</div>
+                <table>
+                    <tr>
+                        <th>Mata Pelajaran</th>
+                    </tr>
+                    <tr>
+                        <td><a href="#">Matematika</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="#">Bahasa Indonesia</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="#">Bahasa Inggris</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="#">Fisika</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="#">Kimia</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="#">Biologi</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="#">Ekonomi</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="#">Pendidikan Agama</a></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <footer>
+            <p>&copy; 2025 SMK Insan Unggul. Semua hak cipta dilindungi.</p>
+        </footer>
+    </div>
+</body>
+</html>
