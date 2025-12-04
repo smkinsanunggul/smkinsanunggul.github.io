@@ -51,36 +51,113 @@
             font-size: 18px;
         }
         
-        .tables-container {
+        .classes-container {
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 20px;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
         }
         
-        .class-column {
+        .class-card {
             flex: 1;
             min-width: 300px;
+            max-width: 350px;
             background-color: white;
             border-radius: 10px;
-            padding: 20px;
+            padding: 30px 20px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-        }
-        
-        .class-column:hover {
-            transform: translateY(-5px);
-        }
-        
-        .class-title {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
             text-align: center;
-            padding: 15px;
+        }
+        
+        .class-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .class-card h3 {
+            font-size: 24px;
+            color: #1a4c8f;
             margin-bottom: 15px;
+        }
+        
+        .class-card p {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        
+        .modal-content {
+            position: relative;
+            background-color: white;
+            margin: 50px auto;
+            padding: 0;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: modalFadeIn 0.3s ease-out;
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .modal-header {
+            padding: 20px 30px;
             background-color: #1a4c8f;
             color: white;
-            border-radius: 8px;
-            font-size: 20px;
-            font-weight: bold;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h3 {
+            font-size: 24px;
+            margin: 0;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+        
+        .close-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .modal-body {
+            padding: 30px;
+            max-height: 70vh;
+            overflow-y: auto;
         }
         
         table {
@@ -119,17 +196,29 @@
             text-align: center;
             margin-top: 40px;
             padding: 20px;
-            color: #666;
+            color: #fff;
             font-size: 14px;
         }
         
         @media (max-width: 768px) {
-            .tables-container {
+            .classes-container {
                 flex-direction: column;
+                align-items: center;
             }
             
-            .class-column {
+            .class-card {
                 min-width: 100%;
+                max-width: 100%;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 20px auto;
+            }
+            
+            .modal-body {
+                padding: 20px;
+                max-height: 80vh;
             }
         }
     </style>
@@ -140,79 +229,250 @@
             <img class="header" src="PSAS.jpeg" alt="PSAS"
         </header>
         
-        <div class="tables-container">
-            <div class="class-column">
-                <div class="class-title">KELAS X</div>
-                <table>
-                    <tr>
-                        <th><center>Mata Pelajaran</center></th>
-                    </tr>
-                    <tr> <td><b><center>SENIN</center></b></td></tr>
-                     <tr>
-                        <td><a href="https://forms.gle/EZKYtmbB38utxaFw6">Bahasa Indonesia</a></td>
-                    </tr>
-                     <tr>
-                        <td><a href="https://forms.gle/nnrp9xNV93AojWiH7">Pendidikan Agama Islam dan Budi Pekerti</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="https://forms.gle/pZSaGeB7fP5vtddp7">Pendidikan Agama Kristen dan Budi Pekerti</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="https://forms.gle/Z7R8ghnvox7FnfH56">Pendidikan Kewarganegaraan</a></td>
-                    </tr>
-                    <tr> <td><b><center>SELASA</center></b></td></tr>
-                     <tr>
-                        <td><a href="https://forms.gle/kVPiK52umh9axvp46">Pendidikan Jasmani, Olahraga, dan Kesehatan</a></td>
-                    </tr>
-                     <tr>
-                        <td><a href="https://forms.gle/q68cc7DJnhkQ4dCK7">Sejarah</a></td>
-                    </tr>
-                     <tr>
-                        <td><a href="https://forms.gle/3jTS1QTBjsxZ1Suk7">Seni Musik</a></td>
-                    </tr>
-                     <tr> <td><b><center>RABU</center></b></td></tr>
-                     <tr>
-                        <td><a href="https://forms.gle/t1uaDDHgpKmhQ23k8">Matematika</a></td>
-                    </tr>
-                     <tr>
-                        <td><a href="https://forms.gle/oeFrnxVBoNkX3wvd6">Bahasa Inggris</a></td>
-                    </tr>
-                     <tr>
-                        <td><a href="https://forms.gle/ynLdmqoKZSftTYFWA">Informatika</a></td>
-                    </tr>
-                    <tr> <td><b><center>KAMIS</center></b></td></tr>
-                     <tr>
-                        <td><a href="https://forms.gle/17Ahau9w1UyiZFhS6">IPAS</a></td>
-                    </tr>
-                     <tr>
-                        <td><a href="https://forms.gle/c1kQ7XgYrD6teTDR9">KDKA</a></td>
-                    </tr>
-                     <tr>
-                        <td><a href="https://forms.gle/9NLrWgTKyaxECJnG9">Bahasa Sunda</a></td>
-                    </tr>
-                     <tr> <td><b><center>JUM'AT</center></b></td></tr>
-                     <tr>
-                        <td><a href="https://forms.gle/oHRmLNDhFjC57anv7">Produktif Kuliner</a></td>
-                    </tr>
-                     <tr>
-                        <td><a href="https://forms.gle/j4jFPxfwSejQhDc28">Produktif Perbankan</a></td>
-                    </tr>
-                     <tr>
-                        <td><a href="https://forms.gle/SiKo3Sh2Jopcb38M8">Produktif Tata Boga</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="https://forms.gle/Kn3VabavTuP1Ck869">SKI</a></td>
-                    </tr>
-                   
-                   
-                </table>
+        <div class="classes-container">
+            <div class="class-card" onclick="openModal('kelasX')">
+                <h3>KELAS X</h3>
+                <p>Klik untuk melihat daftar mata pelajaran dan link penilaian</p>
             </div>
             
+            <div class="class-card" onclick="openModal('kelasXI')">
+                <h3>KELAS XI</h3>
+                <p>Klik untuk melihat daftar mata pelajaran dan link penilaian</p>
+            </div>
+            
+            <div class="class-card" onclick="openModal('kelasXII')">
+                <h3>KELAS XII</h3>
+                <p>Klik untuk melihat daftar mata pelajaran dan link penilaian</p>
+            </div>
         </div>
         
         <footer>
             <p>&copy; 2025 SMK Insan Unggul. Semua hak cipta dilindungi.</p>
         </footer>
     </div>
+    
+    <!-- Modal untuk Kelas X -->
+    <div id="modalKelasX" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>KELAS X - Daftar Mata Ujian</h3>
+                <button class="close-btn" onclick="closeModal('kelasX')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <table>
+                    <tr>
+                        <th><center>Mata Ujian</center></th>
+                    </tr>
+                    <tr> <td><b><center>SENIN</center></b></td></tr>
+                     <tr>
+                        <td><a href="https://forms.gle/EZKYtmbB38utxaFw6" target="_blank">Bahasa Indonesia</a></td>
+                    </tr>
+                     <tr>
+                        <td><a href="https://forms.gle/nnrp9xNV93AojWiH7" target="_blank">Pendidikan Agama Islam dan Budi Pekerti</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://forms.gle/pZSaGeB7fP5vtddp7" target="_blank">Pendidikan Agama Kristen dan Budi Pekerti</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://forms.gle/Z7R8ghnvox7FnfH56" target="_blank">Pendidikan Kewarganegaraan</a></td>
+                    </tr>
+                    <tr> <td><b><center>SELASA</center></b></td></tr>
+                     <tr>
+                        <td><a href="https://forms.gle/kVPiK52umh9axvp46" target="_blank">Pendidikan Jasmani, Olahraga, dan Kesehatan</a></td>
+                    </tr>
+                     <tr>
+                        <td><a href="https://forms.gle/q68cc7DJnhkQ4dCK7" target="_blank">Sejarah</a></td>
+                    </tr>
+                     <tr>
+                        <td><a href="https://forms.gle/3jTS1QTBjsxZ1Suk7" target="_blank">Seni Musik</a></td>
+                    </tr>
+                     <tr> <td><b><center>RABU</center></b></td></tr>
+                     <tr>
+                        <td><a href="https://forms.gle/t1uaDDHgpKmhQ23k8" target="_blank">Matematika</a></td>
+                    </tr>
+                     <tr>
+                        <td><a href="https://forms.gle/oeFrnxVBoNkX3wvd6" target="_blank">Bahasa Inggris</a></td>
+                    </tr>
+                     <tr>
+                        <td><a href="https://forms.gle/ynLdmqoKZSftTYFWA" target="_blank">Informatika</a></td>
+                    </tr>
+                    <tr> <td><b><center>KAMIS</center></b></td></tr>
+                     <tr>
+                        <td><a href="https://forms.gle/17Ahau9w1UyiZFhS6" target="_blank">IPAS</a></td>
+                    </tr>
+                     <tr>
+                        <td><a href="https://forms.gle/c1kQ7XgYrD6teTDR9" target="_blank">KDKA</a></td>
+                    </tr>
+                     <tr>
+                        <td><a href="https://forms.gle/9NLrWgTKyaxECJnG9" target="_blank">Bahasa Sunda</a></td>
+                    </tr>
+                     <tr> <td><b><center>JUM'AT</center></b></td></tr>
+                     <tr>
+                        <td><a href="https://forms.gle/oHRmLNDhFjC57anv7" target="_blank">Produktif Kuliner</a></td>
+                    </tr>
+                     <tr>
+                        <td><a href="https://forms.gle/j4jFPxfwSejQhDc28" target="_blank">Produktif Perbankan</a></td>
+                    </tr>
+                     <tr>
+                        <td><a href="https://forms.gle/SiKo3Sh2Jopcb38M8" target="_blank">Produktif Tata Boga</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://forms.gle/Kn3VabavTuP1Ck869" target="_blank">SKI</a></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal untuk Kelas XI (isi sama, bisa disesuaikan nanti) -->
+    <div id="modalKelasXI" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>KELAS XI - Daftar Mata Ujian</h3>
+                <button class="close-btn" onclick="closeModal('kelasXI')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <table>
+                    <tr>
+                        <th><center>Mata Ujian</center></th>
+                    </tr>
+                    <tr> <td><b><center>SENIN</center></b></td></tr>
+                     <tr>
+                        <td><a href="#" target="_blank">Bahasa Indonesia</a></td>
+                    </tr>
+                     <tr>
+                        <td><a href="#" target="_blank">Pendidikan Agama Islam dan Budi Pekerti</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="#" target="_blank">Pendidikan Agama Kristen dan Budi Pekerti</a></td>
+                    </tr>
+                    <tr> <td><b><center>SELASA</center></b></td></tr>
+                     <tr>
+                        <td><a href="#" target="_blank">Pendidikan Jasmani, Olahraga, dan Kesehatan</a></td>
+                    </tr>
+                     <tr>
+                        <td><a href="#" target="_blank">Sejarah</a></td>
+                    </tr>
+                     <tr> <td><b><center>RABU</center></b></td></tr>
+                     <tr>
+                        <td><a href="#" target="_blank">Matematika</a></td>
+                    </tr>
+                     <tr>
+                        <td><a href="#" target="_blank">Bahasa Inggris</a></td>
+                    </tr>
+                    <tr> <td><b><center>KAMIS</center></b></td></tr>
+                     <tr>
+                        <td><a href="#" target="_blank">IPAS</a></td>
+                    </tr>
+                     <tr>
+                        <td><a href="#" target="_blank">KDKA</a></td>
+                    </tr>
+                     <tr> <td><b><center>JUM'AT</center></b></td></tr>
+                     <tr>
+                        <td><a href="#" target="_blank">Produktif Kuliner</a></td>
+                    </tr>
+                     <tr>
+                        <td><a href="#" target="_blank">Produktif Perbankan</a></td>
+                    </tr>
+                </table>
+                <p style="margin-top: 20px; text-align: center; color: #666; font-style: italic;">
+                    * Catatan: Mata pelajaran untuk kelas XI dapat disesuaikan dengan data sebenarnya
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal untuk Kelas XII (isi sama, bisa disesuaikan nanti) -->
+    <div id="modalKelasXII" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>KELAS XII - Daftar Mata Ujian</h3>
+                <button class="close-btn" onclick="closeModal('kelasXII')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <table>
+                    <tr>
+                        <th><center>Mata Ujian</center></th>
+                    </tr>
+                    <tr> <td><b><center>SENIN</center></b></td></tr>
+                     <tr>
+                        <td><a href="#" target="_blank">Bahasa Indonesia</a></td>
+                    </tr>
+                     <tr>
+                        <td><a href="#" target="_blank">Pendidikan Agama Islam dan Budi Pekerti</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="#" target="_blank">Pendidikan Agama Kristen dan Budi Pekerti</a></td>
+                    </tr>
+                    <tr> <td><b><center>SELASA</center></b></td></tr>
+                     <tr>
+                        <td><a href="#" target="_blank">Pendidikan Jasmani, Olahraga, dan Kesehatan</a></td>
+                    </tr>
+                     <tr>
+                        <td><a href="#" target="_blank">Sejarah</a></td>
+                    </tr>
+                     <tr> <td><b><center>RABU</center></b></td></tr>
+                     <tr>
+                        <td><a href="#" target="_blank">Matematika</a></td>
+                    </tr>
+                     <tr>
+                        <td><a href="#" target="_blank">Bahasa Inggris</a></td>
+                    </tr>
+                    <tr> <td><b><center>KAMIS</center></b></td></tr>
+                     <tr>
+                        <td><a href="#" target="_blank">IPAS</a></td>
+                    </tr>
+                     <tr>
+                        <td><a href="#" target="_blank">KDKA</a></td>
+                    </tr>
+                     <tr> <td><b><center>JUM'AT</center></b></td></tr>
+                     <tr>
+                        <td><a href="#" target="_blank">Produktif Kuliner</a></td>
+                    </tr>
+                     <tr>
+                        <td><a href="#" target="_blank">Produktif Perbankan</a></td>
+                    </tr>
+                </table>
+                <p style="margin-top: 20px; text-align: center; color: #666; font-style: italic;">
+                    * Catatan: Mata pelajaran untuk kelas XII dapat disesuaikan dengan data sebenarnya
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fungsi untuk membuka modal
+        function openModal(kelas) {
+            document.getElementById(`modal${kelas.charAt(0).toUpperCase() + kelas.slice(1)}`).style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Mencegah scroll di body
+        }
+        
+        // Fungsi untuk menutup modal
+        function closeModal(kelas) {
+            document.getElementById(`modal${kelas.charAt(0).toUpperCase() + kelas.slice(1)}`).style.display = 'none';
+            document.body.style.overflow = 'auto'; // Mengembalikan scroll di body
+        }
+        
+        // Menutup modal ketika mengklik di luar konten modal
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+        
+        // Menutup modal dengan tombol Escape
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const modals = document.getElementsByClassName('modal');
+                for (let modal of modals) {
+                    if (modal.style.display === 'block') {
+                        modal.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 </html>
