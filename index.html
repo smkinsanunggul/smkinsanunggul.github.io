@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Ujian Hari Ini · Peserta</title>
+    <title>EXAMIU · Dashboard Ujian</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
@@ -20,7 +20,7 @@
             color: #1e293b;
         }
         .dashboard-card {
-            max-width: 650px;
+            max-width: 680px;
             width: 100%;
             background: #ffffff;
             border-radius: 28px;
@@ -85,6 +85,7 @@
             font-size: 0.9rem;
             font-weight: 500;
             color: #1e4bd2;
+            transition: background 0.2s, color 0.2s;
         }
         .section-title {
             font-weight: 600;
@@ -108,22 +109,24 @@
             gap: 12px;
             min-height: 180px;
         }
-        .exam-item {
+        /* Style untuk tautan ujian (menggantikan div) */
+        a.exam-item {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            gap: 14px;
             background: #ffffff;
             border: 1.5px solid #e9edf4;
             border-radius: 20px;
             padding: 18px 20px;
             font-weight: 500;
             font-size: 1.05rem;
-            color: #0b1e3a;
             box-shadow: 0 4px 8px rgba(0,0,0,0.02);
             transition: all 0.2s;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 14px;
         }
-        .exam-item:hover {
+        a.exam-item:hover {
             border-color: #3b82f6;
             background: #fafcff;
             box-shadow: 0 10px 20px -8px rgba(37,99,235,0.12);
@@ -133,7 +136,22 @@
             font-size: 1.7rem;
             line-height: 1;
         }
-        /* Pesan "Ujian belum dimulai" */
+        .click-hint {
+            font-size: 0.8rem;
+            color: #5f7d9c;
+            margin-left: auto;
+            opacity: 0.8;
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .click-hint::after {
+            content: "↗";
+            font-size: 1.1rem;
+            opacity: 0.7;
+        }
+        /* Pesan kosong */
         .empty-message {
             text-align: center;
             padding: 56px 20px 60px;
@@ -166,16 +184,10 @@
             border-top: 1px solid #e2e8f0;
             padding-top: 20px;
         }
-        .click-hint {
-            font-size: 0.8rem;
-            color: #5f7d9c;
-            margin-left: auto;
-            opacity: 0.7;
-        }
         @media (max-width: 480px) {
             .dashboard-card { padding: 20px 16px; }
             h1 { font-size: 1.6rem; }
-            .exam-item { padding: 16px; font-size: 1rem; }
+            a.exam-item { padding: 16px; font-size: 1rem; }
         }
     </style>
 </head>
@@ -186,7 +198,7 @@
         <span style="font-size:0.9rem; background:#e2e8f0; padding:4px 10px; border-radius:30px; font-weight:500;">April 2026</span>
     </h1>
     <div class="subhead">
-        Daftar ujian hanya muncul sesuai tanggal perangkat · tidak dapat diubah
+        ⏱️ Jadwal sesuai tanggal perangkat · klik mata ujian untuk mulai
     </div>
 
     <!-- Info tanggal hari ini (statis dari device) -->
@@ -198,16 +210,16 @@
         <span class="status-chip" id="examStatusChip">⚡ Hari ini ada ujian</span>
     </div>
 
-    <!-- Daftar Mata Ujian -->
+    <!-- Daftar Mata Ujian (sekarang berupa link) -->
     <div class="section-title">
         📚 Mata Ujian
         <span id="examCountBadge">3 ujian</span>
     </div>
     <div id="examListContainer" class="exam-list">
-        <!-- konten akan diisi JavaScript -->
+        <!-- akan diisi oleh JavaScript -->
     </div>
     <div class="footer-note">
-        Klik mata ujian untuk memilih · Ujian hanya tampil pada tanggal terjadwal
+        🔗 Setiap kartu adalah tautan menuju ruang ujian · Data sinkron dengan waktu perangkat
     </div>
 </div>
 
@@ -230,7 +242,7 @@
         const dayNames = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
         const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
 
-        // Dapatkan tanggal hari ini (waktu lokal perangkat)
+        // Dapatkan tanggal hari ini (waktu lokal perangkat) dalam format YYYY-MM-DD
         function getTodayDateString() {
             const now = new Date();
             const year = now.getFullYear();
@@ -239,7 +251,7 @@
             return `${year}-${month}-${day}`;
         }
 
-        // Ambil nama hari dari string YYYY-MM-DD (UTC, tapi konsisten)
+        // Ambil nama hari dari string YYYY-MM-DD (konsisten dengan UTC)
         function getDayNameFromDateStr(dateStr) {
             const [y, m, d] = dateStr.split('-').map(Number);
             const dObj = new Date(Date.UTC(y, m-1, d));
@@ -265,6 +277,35 @@
             return entry ? entry.exams : [];
         }
 
+       // Letakkan objek ini setelah examSchedule (sekitar baris 160)
+        const examLinkMap = {
+            // === APRIL 2026 - SIMULASI & UJIAN UTAMA ===
+            "Simulasi Pendidikan Agama Islam dan Budi Pekerti": "https://forms.gle/contoh-link-pai-1",
+            "Simulasi Pendidikan Pancasila": "https://forms.gle/contoh-link-ppkn-1",
+            "Simulasi Bahasa Indonesia": "https://forms.gle/contoh-link-bindo-1",
+            
+            "Simulasi Produktif (Teknik Sepeda Motor, Perbankan, Kuliner)": "https://forms.gle/contoh-link-produktif",
+            "Simulasi Matematika": "https://forms.gle/contoh-link-mtk",
+            "Simulasi Bahasa Inggris": "https://forms.gle/contoh-link-inggris",
+            
+            "Pendidikan Agama Islam dan Budi Pekerti": "https://forms.gle/c7evv4nDtRH1bk1i7",
+            "Pendidikan Pancasila": "https://forms.gle/contoh-link-ppkn-2",
+            "Bahasa Indonesia": "https://forms.gle/contoh-link-bindo-2",
+            "Produktif (Teknik Sepeda Motor, Perbankan, Kuliner)": "https://forms.gle/contoh-link-produktif-2",
+            "Matematika": "https://forms.gle/contoh-link-mtk-2",
+            "Bahasa Inggris": "https://forms.gle/contoh-link-inggris-2"
+        };
+        
+        // Ubah fungsi generateExamLink menjadi seperti ini:
+        function generateExamLink(examName) {
+            // Jika nama ujian ada di map, gunakan link itu
+            if (examLinkMap[examName]) {
+                return examLinkMap[examName];
+            }
+            // Fallback kalau belum diisi (bisa diubah ke link default atau dibiarkan #)
+            return `#${encodeURIComponent(examName)}`; 
+        }
+
         // ---------- ELEMEN UI ----------
         const todayDayNameSpan = document.getElementById('todayDayName');
         const todayFullDateSpan = document.getElementById('todayFullDate');
@@ -274,7 +315,7 @@
 
         // ---------- RENDER BERDASARKAN TANGGAL DEVICE ----------
         function renderForToday() {
-            const todayStr = getTodayDateString();           // format YYYY-MM-DD lokal
+            const todayStr = getTodayDateString();           // YYYY-MM-DD lokal
             const dayName = getDayNameFromDateStr(todayStr);
             const fullDate = formatFullDate(todayStr);
             const shortDate = formatShortDate(todayStr);
@@ -312,9 +353,10 @@
                 return;
             }
 
-            // Ada ujian → render daftar
+            // Ada ujian → render daftar sebagai LINK (anchor)
             let htmlString = '';
             exams.forEach(exam => {
+                // Tentukan ikon sesuai mata ujian
                 let icon = '📘';
                 const low = exam.toLowerCase();
                 if (low.includes('agama') || low.includes('islam')) icon = '🕌';
@@ -325,34 +367,49 @@
                 else if (low.includes('produktif') || low.includes('sepeda') || low.includes('perbankan') || low.includes('kuliner')) icon = '🔧';
                 else if (low.includes('simulasi')) icon = '🧪';
                 
+                // Buat link dengan template URL
+                const examUrl = generateExamLink(exam);
+                
+                // Escape nama untuk atribut data (opsional)
+                const escapedName = exam.replace(/"/g, '&quot;');
+                
                 htmlString += `
-                    <div class="exam-item" data-exam-name="${exam.replace(/"/g, '&quot;')}">
+                    <a class="exam-item" href="${examUrl}" data-exam-name="${escapedName}">
                         <span class="exam-icon">${icon}</span>
                         <span style="flex:1;">${exam}</span>
-                        <span class="click-hint">⏎ klik</span>
-                    </div>
+                        <span class="click-hint">mulai ujian</span>
+                    </a>
                 `;
             });
             container.innerHTML = htmlString;
         }
 
-        // ---------- KLIK ITEM UJIAN (SIMULASI) ----------
+        // ---------- EVENT LISTENER OPSIONAL: tetap memungkinkan intercept (misal tracking) ----------
+        // Karena kita menggunakan <a> asli, browser akan menangani navigasi.
+        // Bisa ditambahkan listener untuk konfirmasi atau analytics, tetapi tidak mengubah perilaku default.
         container.addEventListener('click', (e) => {
-            const examItem = e.target.closest('.exam-item');
-            if (!examItem) return;
-            let examName = examItem.getAttribute('data-exam-name');
-            if (!examName) {
-                const span = examItem.querySelector('span:not(.exam-icon):not(.click-hint)');
-                examName = span ? span.textContent.trim() : 'Ujian ini';
+            const anchor = e.target.closest('a.exam-item');
+            if (!anchor) return;
+            
+            // Opsional: bisa menampilkan pesan sementara (contoh) tanpa mengganggu navigasi.
+            // Tapi karena kita ingin link bekerja normal, biarkan saja.
+            // Contoh kecil: console.info atau tracking.
+            const examName = anchor.getAttribute('data-exam-name') || 
+                             anchor.querySelector('span:not(.exam-icon):not(.click-hint)')?.textContent.trim();
+            if (examName) {
+                // Bisa digunakan untuk analytics (tidak mengubah perilaku default)
+                console.log(`📤 Menuju ujian: ${examName}`);
+                // Jika ingin menambahkan konfirmasi sebelum pindah, bisa gunakan preventDefault lalu redirect manual.
+                // Tapi sesuai permintaan, template link sudah ada.
             }
-            alert(`📌 Anda memilih:\n"${examName}"\n\n(Ini adalah simulasi dashboard ujian.)`);
         });
 
-        // ---------- MULAI RENDER ----------
+        // ---------- RENDER PERTAMA KALI ----------
         renderForToday();
 
-        // (Opsional) Jika perlu demo di luar April 2026, pesan tetap sesuai.
-        // Tidak ada date picker, siswa hanya melihat berdasarkan waktu perangkat.
+        // (Catatan: jika ingin menguji tampilan untuk tanggal tertentu, 
+        // Anda bisa mengganti sementara fungsi getTodayDateString dengan string tetap,
+        // namun untuk produksi tetap gunakan tanggal perangkat.)
     })();
 </script>
 </body>
