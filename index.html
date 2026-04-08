@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Ujian Hari Ini · Peserta</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f4f7fc;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #1e293b;
+        }
+        .dashboard-card {
+            max-width: 650px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 28px;
+            box-shadow: 0 20px 35px -8px rgba(0,0,0,0.08), 0 8px 16px -6px rgba(0,0,0,0.02);
+            padding: 28px 24px 32px;
+            border: 1px solid #eef2f6;
+        }
+        h1 {
+            font-weight: 600;
+            font-size: 1.9rem;
+            letter-spacing: -0.02em;
+            color: #0f172a;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .subhead {
+            font-size: 0.95rem;
+            color: #64748b;
+            margin-bottom: 24px;
+            border-left: 3px solid #3b82f6;
+            padding-left: 14px;
+            font-weight: 400;
+        }
+        .today-info {
+            background: #f8fafc;
+            border-radius: 20px;
+            padding: 20px 22px;
+            margin-bottom: 28px;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .date-box {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .day-badge {
+            background: #1e4bd2;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 0.3px;
+        }
+        .full-date {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #0f172a;
+        }
+        .status-chip {
+            background: #e6edf9;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #1e4bd2;
+        }
+        .section-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title span {
+            background: #dbeafe;
+            color: #1e4bd2;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .exam-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            min-height: 180px;
+        }
+        .exam-item {
+            background: #ffffff;
+            border: 1.5px solid #e9edf4;
+            border-radius: 20px;
+            padding: 18px 20px;
+            font-weight: 500;
+            font-size: 1.05rem;
+            color: #0b1e3a;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.02);
+            transition: all 0.2s;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .exam-item:hover {
+            border-color: #3b82f6;
+            background: #fafcff;
+            box-shadow: 0 10px 20px -8px rgba(37,99,235,0.12);
+            transform: translateY(-2px);
+        }
+        .exam-icon {
+            font-size: 1.7rem;
+            line-height: 1;
+        }
+        /* Pesan "Ujian belum dimulai" */
+        .empty-message {
+            text-align: center;
+            padding: 56px 20px 60px;
+            color: #334155;
+            background: #fafcff;
+            border-radius: 24px;
+            border: 1.5px dashed #cbd5e1;
+        }
+        .empty-message .big-emoji {
+            font-size: 3.2rem;
+            display: block;
+            margin-bottom: 16px;
+            opacity: 0.9;
+        }
+        .empty-message .main-text {
+            font-weight: 600;
+            font-size: 1.4rem;
+            color: #0f172a;
+            margin-bottom: 6px;
+        }
+        .empty-message .sub-text {
+            font-size: 0.95rem;
+            color: #64748b;
+        }
+        .footer-note {
+            margin-top: 26px;
+            font-size: 0.8rem;
+            color: #94a3b8;
+            text-align: center;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 20px;
+        }
+        .click-hint {
+            font-size: 0.8rem;
+            color: #5f7d9c;
+            margin-left: auto;
+            opacity: 0.7;
+        }
+        @media (max-width: 480px) {
+            .dashboard-card { padding: 20px 16px; }
+            h1 { font-size: 1.6rem; }
+            .exam-item { padding: 16px; font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard-card">
+    <h1>
+        📋 Ujian Hari Ini
+        <span style="font-size:0.9rem; background:#e2e8f0; padding:4px 10px; border-radius:30px; font-weight:500;">April 2026</span>
+    </h1>
+    <div class="subhead">
+        Daftar ujian hanya muncul sesuai tanggal perangkat · tidak dapat diubah
+    </div>
+
+    <!-- Info tanggal hari ini (statis dari device) -->
+    <div class="today-info">
+        <div class="date-box">
+            <span class="day-badge" id="todayDayName">Kamis</span>
+            <span class="full-date" id="todayFullDate">9 April 2026</span>
+        </div>
+        <span class="status-chip" id="examStatusChip">⚡ Hari ini ada ujian</span>
+    </div>
+
+    <!-- Daftar Mata Ujian -->
+    <div class="section-title">
+        📚 Mata Ujian
+        <span id="examCountBadge">3 ujian</span>
+    </div>
+    <div id="examListContainer" class="exam-list">
+        <!-- konten akan diisi JavaScript -->
+    </div>
+    <div class="footer-note">
+        Klik mata ujian untuk memilih · Ujian hanya tampil pada tanggal terjadwal
+    </div>
+</div>
+
+<script>
+    (function(){
+        "use strict";
+
+        // ---------- DATA JADWAL UJIAN (APRIL 2026) ----------
+        const examSchedule = [
+            { date: "2026-04-09", exams: ["Simulasi Pendidikan Agama Islam dan Budi Pekerti", "Simulasi Pendidikan Pancasila", "Simulasi Bahasa Indonesia"] },
+            { date: "2026-04-10", exams: ["Simulasi Pendidikan Agama Islam dan Budi Pekerti", "Simulasi Pendidikan Pancasila", "Simulasi Bahasa Indonesia"] },
+            { date: "2026-04-11", exams: ["Simulasi Produktif (Teknik Sepeda Motor, Perbankan, Kuliner)", "Simulasi Matematika", "Simulasi Bahasa Inggris"] },
+            { date: "2026-04-13", exams: ["Pendidikan Agama Islam dan Budi Pekerti", "Pendidikan Pancasila"] },
+            { date: "2026-04-14", exams: ["Bahasa Indonesia", "Produktif (Teknik Sepeda Motor, Perbankan, Kuliner)"] },
+            { date: "2026-04-15", exams: ["Matematika"] },
+            { date: "2026-04-16", exams: ["Bahasa Inggris"] }
+        ];
+
+        // Nama hari & bulan Indonesia
+        const dayNames = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+        const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+        // Dapatkan tanggal hari ini (waktu lokal perangkat)
+        function getTodayDateString() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        // Ambil nama hari dari string YYYY-MM-DD (UTC, tapi konsisten)
+        function getDayNameFromDateStr(dateStr) {
+            const [y, m, d] = dateStr.split('-').map(Number);
+            const dObj = new Date(Date.UTC(y, m-1, d));
+            return dayNames[dObj.getUTCDay()];
+        }
+
+        // Format panjang: "Kamis, 9 April 2026"
+        function formatFullDate(dateStr) {
+            const [y, m, d] = dateStr.split('-').map(Number);
+            const dayName = getDayNameFromDateStr(dateStr);
+            return `${dayName}, ${d} ${monthNames[m-1]} ${y}`;
+        }
+
+        // Format pendek: "9 April 2026"
+        function formatShortDate(dateStr) {
+            const [y, m, d] = dateStr.split('-').map(Number);
+            return `${d} ${monthNames[m-1]} ${y}`;
+        }
+
+        // Dapatkan daftar ujian berdasarkan tanggal
+        function getExamsByDate(dateStr) {
+            const entry = examSchedule.find(e => e.date === dateStr);
+            return entry ? entry.exams : [];
+        }
+
+        // ---------- ELEMEN UI ----------
+        const todayDayNameSpan = document.getElementById('todayDayName');
+        const todayFullDateSpan = document.getElementById('todayFullDate');
+        const examStatusChip = document.getElementById('examStatusChip');
+        const examCountBadge = document.getElementById('examCountBadge');
+        const container = document.getElementById('examListContainer');
+
+        // ---------- RENDER BERDASARKAN TANGGAL DEVICE ----------
+        function renderForToday() {
+            const todayStr = getTodayDateString();           // format YYYY-MM-DD lokal
+            const dayName = getDayNameFromDateStr(todayStr);
+            const fullDate = formatFullDate(todayStr);
+            const shortDate = formatShortDate(todayStr);
+
+            // Update info tanggal
+            todayDayNameSpan.textContent = dayName;
+            todayFullDateSpan.textContent = fullDate;
+
+            // Ambil ujian hari ini
+            const exams = getExamsByDate(todayStr);
+            const count = exams.length;
+
+            // Update badge jumlah & status chip
+            examCountBadge.textContent = count === 0 ? 'Belum ada ujian' : `${count} ujian`;
+            
+            if (count > 0) {
+                examStatusChip.innerHTML = '✅ Hari ini ada ujian';
+                examStatusChip.style.background = '#e6f7e6';
+                examStatusChip.style.color = '#1e7a1e';
+            } else {
+                examStatusChip.innerHTML = '⏳ Ujian belum dimulai';
+                examStatusChip.style.background = '#fff3cd';
+                examStatusChip.style.color = '#856404';
+            }
+
+            // Jika tidak ada ujian, tampilkan pesan "Ujian belum dimulai"
+            if (count === 0) {
+                container.innerHTML = `
+                    <div class="empty-message">
+                        <span class="big-emoji">⏳</span>
+                        <div class="main-text">Ujian belum dimulai</div>
+                        <div class="sub-text">Hari ini (${shortDate}) tidak ada jadwal ujian.</div>
+                    </div>
+                `;
+                return;
+            }
+
+            // Ada ujian → render daftar
+            let htmlString = '';
+            exams.forEach(exam => {
+                let icon = '📘';
+                const low = exam.toLowerCase();
+                if (low.includes('agama') || low.includes('islam')) icon = '🕌';
+                else if (low.includes('pancasila')) icon = '🇮🇩';
+                else if (low.includes('indonesia')) icon = '📖';
+                else if (low.includes('matematika')) icon = '🔢';
+                else if (low.includes('inggris')) icon = '🇬🇧';
+                else if (low.includes('produktif') || low.includes('sepeda') || low.includes('perbankan') || low.includes('kuliner')) icon = '🔧';
+                else if (low.includes('simulasi')) icon = '🧪';
+                
+                htmlString += `
+                    <div class="exam-item" data-exam-name="${exam.replace(/"/g, '&quot;')}">
+                        <span class="exam-icon">${icon}</span>
+                        <span style="flex:1;">${exam}</span>
+                        <span class="click-hint">⏎ klik</span>
+                    </div>
+                `;
+            });
+            container.innerHTML = htmlString;
+        }
+
+        // ---------- KLIK ITEM UJIAN (SIMULASI) ----------
+        container.addEventListener('click', (e) => {
+            const examItem = e.target.closest('.exam-item');
+            if (!examItem) return;
+            let examName = examItem.getAttribute('data-exam-name');
+            if (!examName) {
+                const span = examItem.querySelector('span:not(.exam-icon):not(.click-hint)');
+                examName = span ? span.textContent.trim() : 'Ujian ini';
+            }
+            alert(`📌 Anda memilih:\n"${examName}"\n\n(Ini adalah simulasi dashboard ujian.)`);
+        });
+
+        // ---------- MULAI RENDER ----------
+        renderForToday();
+
+        // (Opsional) Jika perlu demo di luar April 2026, pesan tetap sesuai.
+        // Tidak ada date picker, siswa hanya melihat berdasarkan waktu perangkat.
+    })();
+</script>
+</body>
+</html>
